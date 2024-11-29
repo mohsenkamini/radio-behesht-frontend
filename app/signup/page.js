@@ -1,4 +1,6 @@
 "use client";
+
+// import API from "@utils/api.js";
 import { useState } from 'react';
 import { Box, TextField, Button, Typography } from '@mui/material';
 
@@ -12,11 +14,14 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch ('/api/auth/users/', {
+            /*const response = await API.post('/auth/users/', formData);
+            */
+            const response = await fetch ('http://localhost:8000/api/auth/users/', {
                 method: 'POST',
                 headers: { 'content-Type': 'application/json'},
                 body: JSON.stringify(formData),
             });
+            
             if (response.ok) {
                 alert ('ورود موفق');
             } else {
