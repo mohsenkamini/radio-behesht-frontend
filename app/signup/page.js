@@ -1,3 +1,4 @@
+"use client";
 import { useState } from 'react';
 import { Box, TextField, Button, Typography } from '@mui/material';
 
@@ -41,7 +42,7 @@ const Signup = () => {
                 <TextField
                 label="نام کاربری"
                 name="نام کاربری"
-                fullwidth
+                fullwidth="true"
                 margin="normal"
                 value={formData.username}
                 onChange={handleChange}
@@ -49,12 +50,12 @@ const Signup = () => {
                 <TextField
                 label="رمز عبور"
                 name="رمز عبور"
-                fullwidth
+                fullwidth="true"
                 margin="normal"
                 value={formData.password}
                 onChange={handleChange}
                 />
-                <Button type="submit" variant="contained" fullwidth>
+                <Button type="submit" variant="contained" fullwidth="true">
                     ثبت نام
                 </Button>
             </form>
