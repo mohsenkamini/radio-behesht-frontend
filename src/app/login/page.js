@@ -4,8 +4,9 @@
 import { useState } from 'react';
 import { Box, TextField, Button, Typography } from '@mui/material';
 
-const Signup = () => {
-    const [formData, setFormData] = useState({username: '', email: '', password: ''});
+const Login = () => {
+    const [formData, setFormData] = useState({username: '', password: ''});
+    const [error, setError] = useState(null);
 
     const handleChange = (e) => {
         setFormData ({ ...formData, [e.target.name]: e.target.value });
@@ -13,23 +14,29 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+	setError(null);
         try {
-            /*const response = await API.post('/auth/users/', formData);
-            */
-	    // const response = await fetch ('http://localhost:8000/api/auth/users/', {
-	    const response = await fetch (`${process.env.NEXT_PUBLIC_API_URL}/api/auth/users/`, {
+            //const response = await fetch ('http://localhost:8000/api/auth/jwt/create', {
+            const response = await fetch (`${process.env.NEXT_PUBLIC_API_URL}/api/auth/jwt/create`, {
                 method: 'POST',
                 headers: { 'content-Type': 'application/json'},
                 body: JSON.stringify(formData),
             });
             
             if (response.ok) {
-                alert ('ثبتن نام موفق');
+		const data = await response.json();
+		const { access, refresh } = data;
+
+		localstorage.setItem("accessToken", access);
+		localstorage.setItem("refreshToken", refresh);
+                alert ('ورود موفق');
+
             } else {
-                alert('ثبت نام ناموفق. دوباره تلاش کنید');
+		const error = await response.json();
+                alert(error?.detail || 'ورود ناموفق. دوباره تلاش کنید');
             }
         } catch (error) {
-            console.error('ثبت نام ناموفق. دوباره تلاش کنید', error)
+            console.error('ورود ناموفق. دوباره تلاش کنید', error)
         }
     };
     return (
@@ -43,7 +50,7 @@ const Signup = () => {
                 gap: 2,
             }}
             >
-            <Typography variant="h4" >ثبت نام در رادیو بهشت</Typography>
+            <Typography variant="h4" >ورود به رادیو بهشت</Typography>
             <form onSubmit={handleSubmit} style= {{width: '300px'}}>
                 <TextField
                 label="نام کاربری"
@@ -51,14 +58,6 @@ const Signup = () => {
                 fullwidth="true"
                 margin="normal"
                 value={formData.username}
-                onChange={handleChange}
-                />
-                <TextField
-                label="ایمیل"
-                name="email"
-                fullwidth="true"
-                margin="normal"
-                value={formData.email}
                 onChange={handleChange}
                 />
                 <TextField
@@ -72,11 +71,11 @@ const Signup = () => {
                 />
 	    <Box witdth="100">
                 <Button type="submit" variant="contained" fullwidth="true">
-                    ثبت نام
+                    ورود
                 </Button>
 	    </Box>
             </form>
         </Box>
     );
 };
-export default Signup;
+export default Login;
