@@ -1,13 +1,15 @@
 "use client";
 
 // import API from "@utils/api.js";
+import { NextResponse } from 'next/server';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Box, TextField, Button, Typography } from '@mui/material';
 
 const Login = () => {
     const [formData, setFormData] = useState({username: '', password: ''});
     const [error, setError] = useState(null);
-
+    const router = useRouter();
     const handleChange = (e) => {
         setFormData ({ ...formData, [e.target.name]: e.target.value });
     };
@@ -24,12 +26,22 @@ const Login = () => {
             });
             
             if (response.ok) {
-		const data = await response.json();
-		const { access, refresh } = data;
-
-		localstorage.setItem("accessToken", access);
-		localstorage.setItem("refreshToken", refresh);
+		const data = await NextResponse.json(response, {
+			status: 200,
+			headers: {"Content-Type": "application/json"},
+		});
+		
+		data.cookies.set({
+		  name: "tokens",
+		  path: "/",
+		  value: JSON.stringify(response),
+		});
+		//const { access, refresh } = data;
+		//localstorage.setItem("accessToken", access);
+		//localstorage.setItem("refreshToken", refresh);
                 alert ('ورود موفق');
+		router.push('/dashboard');
+		return response;
 
             } else {
 		const error = await response.json();
