@@ -1,5 +1,4 @@
 //import RootLayout from "@/app/layout";
-
 import ThemeProviderWrapper from "./ThemeProviderWrapper";
 
 export const metadata = {

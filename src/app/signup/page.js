@@ -46,7 +46,7 @@ const Signup = () => {
             <form onSubmit={handleSubmit} style= {{width: '300px'}}>
                 <TextField
                 label="نام کاربری"
-                name="نام کاربری"
+                name="username"
                 fullwidth="true"
                 margin="normal"
                 value={formData.username}
@@ -54,15 +54,17 @@ const Signup = () => {
                 />
                 <TextField
                 label="رمز عبور"
-                name="رمز عبور"
+                name="password"
                 fullwidth="true"
                 margin="normal"
                 value={formData.password}
                 onChange={handleChange}
                 />
+	    <Box witdth="100">
                 <Button type="submit" variant="contained" fullwidth="true">
                     ثبت نام
                 </Button>
+	    </Box>
             </form>
         </Box>
     );
