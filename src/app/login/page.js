@@ -3,7 +3,7 @@
 // import API from "@utils/api.js";
 import { NextResponse } from 'next/server';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, TextField, Button, Typography } from '@mui/material';
 
 const Login = () => {
@@ -26,21 +26,11 @@ const Login = () => {
             });
             
             if (response.ok) {
-		const data = await NextResponse.json(response, {
-			status: 200,
-			headers: {"Content-Type": "application/json"},
-		});
-		
-		data.cookies.set({
-		  name: "tokens",
-		  path: "/",
-		  value: JSON.stringify(response),
-		});
-		//const { access, refresh } = data;
-		//localstorage.setItem("accessToken", access);
-		//localstorage.setItem("refreshToken", refresh);
+		const data = await response.json();
+		localStorage.setItem("accessToken", data.access);
+		localStorage.setItem("refreshToken", data.refresh);
                 alert ('ورود موفق');
-		router.push('/dashboard');
+		router.push('/');
 		return response;
 
             } else {
