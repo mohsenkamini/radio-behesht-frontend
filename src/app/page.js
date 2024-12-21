@@ -52,10 +52,73 @@ export default function Home() {
 	  console.error("Error playing song:", error)
 	} 
   };
-
+  const handlePause = () => {
+  	if (audio) {
+	  audio.pause();
+	  setIsPlaying(false);
+	}
+  };
+  const handleNext = async () => {
+	if (!currentStation) return;
+	await handlePlay(currentStation);
+  };
+  const handleLike = async () => {
+	if (!currentSong) return;
+	try {
+		await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/radio/stations/${station.id}/like/`) , {
+		  method: "POST",
+		  headers: {
+			"Content-Type": "application/json",
+		  },
+		  body: JSON.stringify({
+			timestamp: now,
+		  }),
+		});
+		alert("Liked the station");
+	} catch (error) {
+		console.error("Error liking",error);
+	}
+  };
   return (
-    <Box>
-      <h1>رادیو بهشت</h1>
+    <Box sx={{ padding: 2, textAlign: "center"  }}>
+	<TypoGraphy variat="h2" gutterBottom>
+	  رادیو بهشت
+	</TypoGraphy>
+	{/*Navigation Links */}
+	<Box sx={{ mb: 4 }}>
+	  <Button varint="contained" href="/signup" sx={{ mx: 1}}>
+	    ثبت‌نام
+	  </Button>
+	  <Button varint="outlined" href="/signup" sx={{ mx: 1}}>
+	    ورود
+	  </Button>
+	</Box>
+	
+	{/* Station List */}
+	<Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
+	  <list
+	    sx={{
+		width: 300,
+		bgcolor: "background.paper",
+		border: "px solid #ddd",
+		borderRadius: 1,
+	    }}
+	  >
+
+	    {stations.map((statin) => (
+		<ListItem
+		    key={station.id}
+		    button
+		    selected={currentStation?.id == station.id}
+		    onClick={() => handlePlay(station)}
+		>
+		 <ListItemText primary={station.name} />
+		</ListItem>
+	    ))}
+	  <\List>
+
+	
+	  
 	  <a href='/signup'> ثبت‌نام </a>
 	  <br></br>
 	  <a href='/login'> ورود </a>
