@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Box, Typography, Button, List, ListItem, ListItemText, IconButton } from "@mui/material";
-import { PlayArrow, Pause SkipNext, SkipPrevious, ThumbUp } from "@mui/icons-material";
+import { PlayArrow, Pause, SkipNext, SkipPrevious, ThumbUp } from "@mui/icons-material";
 import Link from 'next/link';
 
 
@@ -65,7 +65,7 @@ export default function Home() {
   const handleLike = async () => {
 	if (!currentSong) return;
 	try {
-		await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/radio/stations/${station.id}/like/`) , {
+		await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/radio/stations/${station.id}/like/` , {
 		  method: "POST",
 		  headers: {
 			"Content-Type": "application/json",
@@ -81,9 +81,9 @@ export default function Home() {
   };
   return (
     <Box sx={{ padding: 2, textAlign: "center"  }}>
-	<TypoGraphy variat="h2" gutterBottom>
+	<Typography variat="h2" gutterBottom>
 	  رادیو بهشت
-	</TypoGraphy>
+	</Typography>
 	{/*Navigation Links */}
 	<Box sx={{ mb: 4 }}>
 	  <Button varint="contained" href="/signup" sx={{ mx: 1}}>
@@ -96,7 +96,7 @@ export default function Home() {
 	
 	{/* Station List */}
 	<Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
-	  <list
+	  <List
 	    sx={{
 		width: 300,
 		bgcolor: "background.paper",
@@ -115,13 +115,40 @@ export default function Home() {
 		 <ListItemText primary={station.name} />
 		</ListItem>
 	    ))}
-	  <\List>
+	  </List>
 
-	
-	  
-	  <a href='/signup'> ثبت‌نام </a>
-	  <br></br>
-	  <a href='/login'> ورود </a>
-    </Box>
+	  {/* Music Player */}
+	  <Box
+	    sx={{
+		width: 300,
+		p: 2,
+		border: "1px solid #ddd",
+		borderRadius: 1,
+		textAlign: "center",
+	    }}
+	  >
+	    <Typography variant="h6" gutterBottom>
+	  	{currentStation ? currentStation.name: "ایستگاه انتخاب نشده"}
+	    </Typography>
+	    <Typography variant="body2" gutterBottom>
+	  	{currentSong ? `در حال پخش: ${currentSong.title}` : ""}
+	    </Typography>
+	    <Box sx={{ display: "flex", justifyContent: "center", gap: 1, mt: 2 }}>
+	  	<IconButton onClick={() => handlePlay(currentStation)} disabled={!currentStation}>
+	  	  <PlayArrow />
+	  	</IconButton>
+	  	<IconButton onClick={handlePause} disabled={!isPlaying}>
+	  	  <Pause />
+	  	</IconButton>
+	  	<IconButton onClick={handleNext} disabled={!currentStation}>
+	  	  <SkipNext />
+	  	</IconButton>
+	  	<IconButton onClick={handleLike} disabled={!currentSong}>
+	  	  <ThumbUp />
+	  	</IconButton>
+	    </Box>
+	  </Box>
+	</Box>
+     </Box>
   );
 }
