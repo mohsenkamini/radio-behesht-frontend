@@ -59,6 +59,18 @@ export default function RequestStreamPage() {
 	  	margin="normal"
 	    />
 	    <TextField
+              label="توضیحات"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              fullWidth
+              required
+              margin="normal"
+              multiline
+              rows={4}
+              placeholder="توضیحاتی در مورد برنامه ارائه دهید"
+            />
+	    <TextField
 	  	label="برنامه زمان‌بندی"
 	  	name="schedule"
 	  	value={formData.schedule}
@@ -93,6 +105,7 @@ export default function RequestStreamPage() {
             inputProps={{
               min: 1,
             }}
+	    placeholder="حداقل تعداد قسمت‌هایی که در نظر دارید"
           />
           <TextField
             label="اطلاعات تماس"
@@ -102,6 +115,7 @@ export default function RequestStreamPage() {
             fullWidth
             required
             margin="normal"
+	    placeholder="اطلاعات تماس برگزار کننده برای هماهنگی در صورت نیاز"
           />
           <Button
             type="submit"
