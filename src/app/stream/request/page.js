@@ -17,11 +17,38 @@ export default function RequestStreamPage() {
 	setFormData({ ...formData, [name]: value});
   };
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
 	e.preventDefault();
+	try {
+	const response = await fetch (`${process.env.NEXT_PUBLIC_API_URL}/api/stream/request/`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(formData),
+	});
+	if (response.ok) {
 	console.log("Form submitted:", formData);
 	alert("Your request has been submitted successfully!");
+		setFormData({
+          	  programName: "",
+          	  description: "",
+          	  schedule: "",
+          	  startDate: "",
+          	  episodes: "",
+          	  contact: "",
+		});
+	} else {
+	  const errorData = await response.json();
+	  console.error("Error submitting form", errorData);
+          alert("An error occurred while submitting your request. Please try again.");
+	  }
+	} catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Unable to connect to the server. Please try again later.");
+    }
   };
+
   return(
 	<Box
 	  sx={{
