@@ -93,6 +93,25 @@ export default function Home() {
       <Typography variant="h1" gutterBottom>
         رادیو بهشت
       </Typography>
+      < Box 
+	sx={{
+	  mt: 6,
+	  p: 3,
+	  border: "1px solid #ddd",
+	  borderRadius: 1,
+	  textAlign: "center",
+	}}
+      >
+	<Typography variant="h5" gutterbottom>
+	  صداتو به گوش همه برسون!
+	</Typography>
+	<Typography variant="body1" gutterbottom>
+	  تست
+	</Typography>
+	<Button variant="contained" href="/stream/request" sx={{ mt: 2 }}>
+	  ثبت درخواست نقش‌آفرینی
+	</Button>
+    </Box>
 
       {/* Navigation Links */}
 	{!isLoggedIn && (
