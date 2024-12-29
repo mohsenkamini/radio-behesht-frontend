@@ -10,11 +10,13 @@ export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
   const [audio, setAudio] = useState(null);
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    setIsLoggedIn(Boolean(token));
     const fetchStations = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/radio/stations`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/radio/stations/`);
         if (!response.ok) throw new Error("Failed to fetch stations");
         const data = await response.json();
         setStations(data);
@@ -93,14 +95,16 @@ export default function Home() {
       </Typography>
 
       {/* Navigation Links */}
-      <Box sx={{ mb: 4 }}>
-        <Button variant="contained" href="/signup" sx={{ mx: 1 }}>
-          ثبت‌نام
-        </Button>
-        <Button variant="outlined" href="/login" sx={{ mx: 1 }}>
-          ورود
-        </Button>
-      </Box>
+	{!isLoggedIn && (
+          <Box sx={{ mb: 4 }}>
+            <Button variant="contained" href="/signup" sx={{ mx: 1 }}>
+              ثبت‌نام
+            </Button>
+            <Button variant="outlined" href="/login" sx={{ mx: 1 }}>
+              ورود
+            </Button>
+          </Box>
+	)}
 
       {/* Main Layout */}
       <Box sx={{ display: "flex", justifyContent: "center", gap: 4, mt: 4 }}>
