@@ -5,10 +5,10 @@ import { Box, TextField, Typography, Button, Paper, MenuItem } from "@mui/materi
 
 export default function RequestStreamPage() {
   const [formData, setFormData] = useState({
-	programName: "",
+	program_name: "",
 	description: "",
 	schedule: "",
-	startDate: "",
+	start_date: "",
 	episodes: "",
 	contanctInformation: "",
   });
@@ -20,10 +20,12 @@ export default function RequestStreamPage() {
   const handleSubmit = async (e) => {
 	e.preventDefault();
 	try {
+	const token = localStorage.getItem("accessToken");
 	const response = await fetch (`${process.env.NEXT_PUBLIC_API_URL}/api/stream/request/`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`, 
 		},
 		body: JSON.stringify(formData),
 	});
@@ -31,10 +33,10 @@ export default function RequestStreamPage() {
 	console.log("Form submitted:", formData);
 	alert("Your request has been submitted successfully!");
 		setFormData({
-          	  programName: "",
+          	  program_name: "",
           	  description: "",
           	  schedule: "",
-          	  startDate: "",
+          	  start_date: "",
           	  episodes: "",
           	  contact: "",
 		});
@@ -78,8 +80,8 @@ export default function RequestStreamPage() {
 	  <form onSubmit={handleSubmit} >
 	    <TextField
 	  	label="نام برنامه"
-	  	name="programName"
-	  	value={formData.programName}
+	  	name="program_name"
+	  	value={formData.program_name}
 	  	onChange={handleChange}
 	  	fullWidth
 	  	required
@@ -109,9 +111,9 @@ export default function RequestStreamPage() {
 	    />
 	    <TextField
             label="تاریخ شروع"
-            name="startDate"
+            name="start_date"
             type="date"
-            value={formData.startDate}
+            value={formData.start_date}
             onChange={handleChange}
             fullWidth
             required
