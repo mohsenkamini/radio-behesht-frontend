@@ -75,7 +75,7 @@ export default function RequestStreamPage() {
 		}}
 	  >
 	  <Typography variant="h4" component="h" sx={{ mb: 3, textAlign: "center" }}>
-	    درخواست پخش برنامه
+	    درخواست نقش‌آفرینی و اجرای برنامه در رادیو بهشت
 	  </Typography>
 	  <form onSubmit={handleSubmit} >
 	    <TextField
@@ -107,7 +107,7 @@ export default function RequestStreamPage() {
 	  	fullWidth
 	  	required
 	  	margin="normal"
-	  	placeholder="مثلا هر پنج‌شنبه یا روز‌های زوج"
+	  	placeholder="مثلا هر پنج‌شنبه یا روز‌های زوج در فلان ساعت"
 	    />
 	    <TextField
             label="تاریخ شروع"
